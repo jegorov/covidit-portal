@@ -23,6 +23,11 @@ module.exports = {
     devServer: {
         port: 8085
     },
+    resolve: {
+        alias: {
+            '@': path.resolve(__dirname, './src/'),
+        }
+    },
     plugins: [
         //todo нихуя не понял, почему заработало
         new HTMLWebpackPlugin({

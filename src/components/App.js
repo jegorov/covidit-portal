@@ -1,11 +1,14 @@
 import React from "react";
-import SignIn from "./Login/SignIn";
-import Register from "./Register/Register";
+import MainView from "./MainView/MainView";
+import {Auth} from "./Auth/Auth";
+import {Router} from "react-router";
 
 export default function App() {
     return (
-       <div>
-           <Register/>
-       </div>
+        <div>
+            <Router>
+                <Auth component={MainView}/>
+            </Router>
+        </div>
     );
 }
