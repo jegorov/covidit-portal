@@ -1,4 +1,3 @@
-
 const path = require('path')
 const HTMLWebpackPlugin = require('html-webpack-plugin')
 const {CleanWebpackPlugin} = require('clean-webpack-plugin')
@@ -22,6 +21,12 @@ module.exports = {
     },
     devServer: {
         port: 8085
+    },
+    externals: {
+        // global app config object
+        config: JSON.stringify({
+            apiUrl: 'http://localhost:8080'
+        })
     },
     resolve: {
         alias: {
@@ -59,7 +64,7 @@ module.exports = {
                 use: [
                     {
                         loader: MiniCssExtractPlugin.loader,
-                        options: { hmr: MODE.DEVELOPMENT },
+                        options: {hmr: MODE.DEVELOPMENT},
                     },
                     'css-loader',
                     'less-loader',

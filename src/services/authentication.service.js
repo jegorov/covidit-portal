@@ -1,4 +1,4 @@
-import { BehaviorSubject } from 'rxjs';
+import {BehaviorSubject} from 'rxjs';
 
 import config from 'config';
 import {handleResponse} from "@/helpers/handle-response";
@@ -9,14 +9,16 @@ export const authenticationService = {
     login,
     logout,
     currentUser: currentUserSubject.asObservable(),
-    get currentUserValue () { return currentUserSubject.value }
+    get currentUserValue() {
+        return currentUserSubject.value
+    }
 };
 
 function login(username, password) {
     const requestOptions = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({username, password})
     };
 
     return fetch(`${config.apiUrl}/users/authenticate`, requestOptions)
