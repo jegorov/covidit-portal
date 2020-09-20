@@ -1,12 +1,13 @@
-import React from "react";
-import MainView from "./MainView/MainView";
-import {Auth} from "./Auth/Auth";
-import {Route, Router} from "react-router";
-import {history} from '@/helpers/history';
-import {authenticationService} from "@/services/authentication.service";
+import React, {Component} from "react";
 import SignIn from "@/components/Login/SignIn";
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import SignUp from "@/components/SignUp/SignUp";
+import MainView from "@/components/MainView/MainView";
+import {authenticationService} from "@/services/authentication.service";
+import {history} from '@/helpers/history';
+import {Auth} from "@/components/Auth/Auth";
 
-class App extends React.Component {
+class App extends Component {
 
     constructor(props) {
         super(props);
@@ -28,12 +29,16 @@ class App extends React.Component {
 
     render() {
         return (
-            <div>
-                <Router history={history}>
-                    <Auth component={MainView}/>
-                    <Route path="/login" component={SignIn} />
-                </Router>
-            </div>
+            <Router>
+                <div className="App">
+                    <Switch>
+                        <Auth exact path="/" component={MainView}/>
+                        <Route path="/home" component={MainView}/>
+                        <Route path="/login" component={SignIn}/>
+                        <Route path="/register" component={SignUp}/>
+                    </Switch>
+                </div>
+            </Router>
         );
     }
 }

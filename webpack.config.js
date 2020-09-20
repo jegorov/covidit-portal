@@ -17,10 +17,12 @@ module.exports = {
     devtool: MODE.DEVELOPMENT ? 'source-map' : 'cheap-source-map',
     output: {
         filename: '[name].[hash].js',
-        path: path.resolve(__dirname, 'dist')
+        path: path.resolve(__dirname, 'dist'),
+        publicPath: '/'
     },
     devServer: {
-        port: 8085
+        port: 8085,
+        historyApiFallback: true,
     },
     externals: {
         // global app config object

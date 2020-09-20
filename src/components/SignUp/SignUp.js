@@ -7,6 +7,7 @@ import * as Images from '@material-ui/icons';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import {history} from "@/helpers/history";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -28,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Register() {
+export default function SignUp() {
     const classes = useStyles();
 
     return (
@@ -90,6 +91,8 @@ export default function Register() {
                         variant="contained"
                         color="primary"
                         className={classes.submit}
+                        onClick={history.push('login')}
+                        href="#"
                     >
                         Register
                     </Button>
