@@ -5,7 +5,7 @@ import SignUp from "@/components/SignUp/SignUp";
 import MainView from "@/components/MainView/MainView";
 import {authenticationService} from "@/services/authentication.service";
 import {history} from '@/helpers/history';
-import {Auth} from "@/services/TokenProvider";
+import {Auth} from "@/services/Auth";
 
 class App extends Component {
 
@@ -32,7 +32,7 @@ class App extends Component {
             <Router>
                 <div className="App">
                     <Switch>
-                        <Auth exact path="/" component={MainView}/>
+                        {/*<Auth exact path="/" component={MainView}/>*/}
                         <Route path="/home" component={MainView}/>
                         <Route path="/login" component={SignIn}/>
                         <Route path="/register" component={SignUp}/>

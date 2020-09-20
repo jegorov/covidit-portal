@@ -15,7 +15,8 @@
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.3",
-    "react-spring": "^8.0.20"
+    "react-spring": "^8.0.20",
+    "react-token-auth": "^1.1.7"
   },
   "main": "webpack.config.js",
   "scripts": {

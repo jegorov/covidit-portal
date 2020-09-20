@@ -2,10 +2,8 @@ import {BehaviorSubject} from 'rxjs';
 
 import config from 'config';
 import {handleLoginResponse, handleSignUpResponse} from "@/helpers/handle-response";
-import {createTokenProvider} from "@/services/TokenProvider";
-import {createAuthProvider} from "@/services/AuthProvider";
 
-const currentUserSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('currentUser')));
+const currentUserSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('REACT_TOKEN_AUTH')));
 
 export const authenticationService = {
     login,
@@ -18,6 +16,7 @@ export const authenticationService = {
 };
 
 function login(username, password) {
+
     const requestOptions = {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
