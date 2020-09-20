@@ -1,6 +1,6 @@
 import {authenticationService} from "@/services/authentication.service";
 
-export function handleResponse(response) {
+export function handleLoginResponse(response) {
     return response.text().then(text => {
         const data = text && JSON.parse(text);
         if (!response.ok) {
@@ -10,6 +10,18 @@ export function handleResponse(response) {
                 window.location.reload();
             }
 
+            const error = (data && data.message) || response.statusText;
+            return Promise.reject(error);
+        }
+
+        return data;
+    });
+}
+
+export function handleSignUpResponse(response) {
+    return response.text().then(text => {
+        const data = text && JSON.parse(text);
+        if (!response.ok) {
             const error = (data && data.message) || response.statusText;
             return Promise.reject(error);
         }

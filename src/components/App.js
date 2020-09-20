@@ -1,11 +1,11 @@
 import React, {Component} from "react";
-import SignIn from "@/components/Login/SignIn";
+import SignIn from "@/components/SignIn/SignIn";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import SignUp from "@/components/SignUp/SignUp";
 import MainView from "@/components/MainView/MainView";
 import {authenticationService} from "@/services/authentication.service";
 import {history} from '@/helpers/history';
-import {Auth} from "@/components/Auth/Auth";
+import {Auth} from "@/services/TokenProvider";
 
 class App extends Component {
 

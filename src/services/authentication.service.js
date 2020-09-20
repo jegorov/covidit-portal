@@ -1,13 +1,16 @@
 import {BehaviorSubject} from 'rxjs';
 
 import config from 'config';
-import {handleResponse} from "@/helpers/handle-response";
+import {handleLoginResponse, handleSignUpResponse} from "@/helpers/handle-response";
+import {createTokenProvider} from "@/services/TokenProvider";
+import {createAuthProvider} from "@/services/AuthProvider";
 
 const currentUserSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('currentUser')));
 
 export const authenticationService = {
     login,
     logout,
+    signUp,
     currentUser: currentUserSubject.asObservable(),
     get currentUserValue() {
         return currentUserSubject.value
@@ -22,10 +25,10 @@ function login(username, password) {
     };
 
     return fetch(`${config.apiUrl}/login/token/get`, requestOptions)
-        .then(handleResponse)
+        .then(handleLoginResponse)
         .then(user => {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
-            localStorage.setItem('currentUser', JSON.stringify(user));
+            localStorage.setItem('REACT_TOKEN_AUTH', JSON.stringify(user));
             currentUserSubject.next(user);
 
             return user;
@@ -33,17 +36,18 @@ function login(username, password) {
 }
 
 function signUp(user) {
+    console.log(user)
     const requestOptions = {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({user})
+        body: JSON.stringify(user)
     };
 
-    return fetch(`${config.apiUrl}/signup`, requestOptions);
+    return fetch(`${config.apiUrl}/signup`, requestOptions).then(handleSignUpResponse);
 }
 
 function logout() {
     // remove user from local storage to log user out
-    localStorage.removeItem('currentUser');
+    localStorage.removeItem('REACT_TOKEN_AUTH');
     currentUserSubject.next(null);
 }

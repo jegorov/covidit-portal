@@ -3,11 +3,15 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import Link from '@material-ui/core/Link';
+import Grid from '@material-ui/core/Grid';
 import * as Images from '@material-ui/icons';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import {history} from "@/helpers/history";
+import {history} from '@/helpers/history';
 import {authenticationService} from "@/services/authentication.service";
 
 const useStyles = makeStyles((theme) => ({
@@ -30,23 +34,29 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function signUp() {
+
+const login = () => {
     var user_name = document.getElementById("email").value;
     var user_password = document.getElementById("password").value;
-    var full_name = document.getElementById("full-name").value;
-    var country = document.getElementById("country").value;
-    let user = new Object();
-    user.username = user_name;
-    user.country = country;
-    user.email = user_name;
-    user.name = full_name;
-    user.password = user_password;
-
-    let ret = authenticationService.signUp(user);
-    console.log(ret);
+    console.log("user: " + user_name + ", password: " + user_password);
+    authenticationService.login(user_name, user_password);
+    redirectToHome();
 }
 
-export default function SignUp() {
+const redirectToHome = () => {
+    console.log(localStorage.getItem("REACT_TOKEN_AUTH"))
+    if (localStorage.getItem("REACT_TOKEN_AUTH")){
+        history.push("home");
+    }
+}
+
+
+const redirectToRegister = () => {
+    history.push("register");
+}
+
+export default function SignIn() {
+    redirectToHome();
     const classes = useStyles();
 
     return (
@@ -54,10 +64,10 @@ export default function SignUp() {
             <CssBaseline/>
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>
-                    <Images.TrackChanges/>
+                    <Images.LockOutlined/>
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    Register
+                    Sign in
                 </Typography>
                 <form className={classes.form} noValidate>
                     <TextField
@@ -76,43 +86,38 @@ export default function SignUp() {
                         margin="normal"
                         required
                         fullWidth
-                        id="full-name"
-                        label="Full Name"
-                        name="full-name"
-                        autoComplete="full-name"
-                    />
-                    <TextField
-                        variant="outlined"
-                        margin="normal"
-                        fullWidth
-                        id="country"
-                        label="Country"
-                        name="country"
-                        autoComplete="country"
-                    />
-                    <TextField
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
                         name="password"
                         label="Password"
                         type="password"
                         id="password"
                         autoComplete="current-password"
                     />
-
+                    <FormControlLabel
+                        control={<Checkbox value="remember" color="primary"/>}
+                        label="Remember me"
+                    />
                     <Button
-                        type="register"
+                        type="submit"
                         fullWidth
                         variant="contained"
                         color="primary"
                         className={classes.submit}
-                        onClick={signUp}
-                        href="#"
+                        onClick={redirectToHome}
                     >
-                        Register
+                        Sign In
                     </Button>
+                    <Grid container>
+                        <Grid item xs>
+                            <Link href="#" variant="body2">
+                                Forgot password?
+                            </Link>
+                        </Grid>
+                        <Grid item>
+                            <Link onClick={redirectToRegister} href="#" variant="body2">
+                                {"Don't have an account? Sign Up"}
+                            </Link>
+                        </Grid>
+                    </Grid>
                 </form>
             </div>
         </Container>
