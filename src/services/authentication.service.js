@@ -1,7 +1,7 @@
 import {BehaviorSubject} from 'rxjs';
-
 import config from 'config';
 import {handleLoginResponse, handleSignUpResponse} from "@/helpers/handle-response";
+import {createAuthProvider} from './AuthProvider';
 
 const currentUserSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('REACT_TOKEN_AUTH')));
 
@@ -23,7 +23,7 @@ function login(username, password) {
         body: JSON.stringify({username, password})
     };
 
-    return fetch(`${config.apiUrl}/login/token/get`, requestOptions)
+    return fetch(`${config.apiUrl}/auth/token/get`, requestOptions)
         .then(handleLoginResponse)
         .then(user => {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
@@ -47,6 +47,5 @@ function signUp(user) {
 
 function logout() {
     // remove user from local storage to log user out
-    localStorage.removeItem('REACT_TOKEN_AUTH');
-    currentUserSubject.next(null);
+    createAuthProvider().logout();
 }
