@@ -7,6 +7,8 @@ import * as Images from '@material-ui/icons';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import {history} from "@/helpers/history";
+import {authenticationService} from "@/services/authentication.service";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -28,7 +30,23 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Register() {
+function signUp() {
+    var user_name = document.getElementById("email").value;
+    var user_password = document.getElementById("password").value;
+    var full_name = document.getElementById("full-name").value;
+    var country = document.getElementById("country").value;
+    let user = new Object();
+    user.username = user_name;
+    user.country = country;
+    user.email = user_name;
+    user.name = full_name;
+    user.password = user_password;
+
+    let ret = authenticationService.signUp(user);
+    console.log(ret);
+}
+
+export default function SignUp() {
     const classes = useStyles();
 
     return (
@@ -90,6 +108,8 @@ export default function Register() {
                         variant="contained"
                         color="primary"
                         className={classes.submit}
+                        onClick={signUp}
+                        href="#"
                     >
                         Register
                     </Button>

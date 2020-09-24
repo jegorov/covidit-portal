@@ -1,4 +1,3 @@
-
 const path = require('path')
 const HTMLWebpackPlugin = require('html-webpack-plugin')
 const {CleanWebpackPlugin} = require('clean-webpack-plugin')
@@ -18,10 +17,23 @@ module.exports = {
     devtool: MODE.DEVELOPMENT ? 'source-map' : 'cheap-source-map',
     output: {
         filename: '[name].[hash].js',
-        path: path.resolve(__dirname, 'dist')
+        path: path.resolve(__dirname, 'dist'),
+        publicPath: '/'
     },
     devServer: {
-        port: 8085
+        port: 8085,
+        historyApiFallback: true,
+    },
+    externals: {
+        // global app config object
+        config: JSON.stringify({
+            apiUrl: 'http://localhost:8080'
+        })
+    },
+    resolve: {
+        alias: {
+            '@': path.resolve(__dirname, './src/'),
+        }
     },
     plugins: [
         //todo нихуя не понял, почему заработало
@@ -54,7 +66,7 @@ module.exports = {
                 use: [
                     {
                         loader: MiniCssExtractPlugin.loader,
-                        options: { hmr: MODE.DEVELOPMENT },
+                        options: {hmr: MODE.DEVELOPMENT},
                     },
                     'css-loader',
                     'less-loader',

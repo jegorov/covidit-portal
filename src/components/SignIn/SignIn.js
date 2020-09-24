@@ -11,6 +11,8 @@ import * as Images from '@material-ui/icons';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import {history} from '@/helpers/history';
+import {authenticationService} from "@/services/authentication.service";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -32,7 +34,29 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+
+const login = () => {
+    var user_name = document.getElementById("email").value;
+    var user_password = document.getElementById("password").value;
+    console.log("user: " + user_name + ", password: " + user_password);
+    authenticationService.login(user_name, user_password);
+    redirectToHome();
+}
+
+const redirectToHome = () => {
+    console.log(localStorage.getItem("REACT_TOKEN_AUTH"))
+    if (localStorage.getItem("REACT_TOKEN_AUTH")){
+        history.push("home");
+    }
+}
+
+
+const redirectToRegister = () => {
+    history.push("register");
+}
+
 export default function SignIn() {
+    redirectToHome();
     const classes = useStyles();
 
     return (
@@ -78,6 +102,7 @@ export default function SignIn() {
                         variant="contained"
                         color="primary"
                         className={classes.submit}
+                        onClick={login}
                     >
                         Sign In
                     </Button>
@@ -88,7 +113,7 @@ export default function SignIn() {
                             </Link>
                         </Grid>
                         <Grid item>
-                            <Link href="#" variant="body2">
+                            <Link onClick={redirectToRegister} href="#" variant="body2">
                                 {"Don't have an account? Sign Up"}
                             </Link>
                         </Grid>
