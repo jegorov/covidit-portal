@@ -8,7 +8,7 @@ export const createTokenProvider = () => {
 
     /* Implementation */
 
-    let observers: Array<(isLogged: boolean) => void> = [];
+    let observers = [];
 
     return {
         getToken,
@@ -18,10 +18,10 @@ export const createTokenProvider = () => {
         unsubscribe,
     };
 
-    let _token: { accessToken: string, refreshToken: string } =
+    let _token =
         JSON.parse(localStorage.getItem('REACT_TOKEN_AUTH') || '') || null;
 
-    const getExpirationDate = (jwtToken?: string): number | null => {
+    const getExpirationDate = (jwtToken) => {
         if (!jwtToken) {
             return null;
         }
@@ -32,7 +32,7 @@ export const createTokenProvider = () => {
         return jwt && jwt.exp && jwt.exp * 1000 || null;
     };
 
-    const isExpired = (exp?: number) => {
+    const isExpired = (exp) => {
         if (!exp) {
             return false;
         }
@@ -62,11 +62,11 @@ export const createTokenProvider = () => {
         return !!_token;
     };
 
-    const subscribe = (observer: (isLogged: boolean) => void) => {
+    const subscribe = (observer) => {
         observers.push(observer);
     };
 
-    const unsubscribe = (observer: (isLogged: boolean) => void) => {
+    const unsubscribe = (observer) => {
         observers = observers.filter(_observer => _observer !== observer);
     };
 
@@ -75,7 +75,7 @@ export const createTokenProvider = () => {
         observers.forEach(observer => observer(isLogged));
     };
 
-    const setToken = (token: typeof _token) => {
+    const setToken = (token) => {
         if (token) {
             localStorage.setItem('REACT_TOKEN_AUTH', JSON.stringify(token));
         } else {
