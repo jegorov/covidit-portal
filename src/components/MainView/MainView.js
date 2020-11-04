@@ -1,44 +1,25 @@
 import Container from '@material-ui/core/Container';
-import React from "react";
-import {makeStyles} from "@material-ui/core/styles";
+import React, {Component} from "react";
 import SearchAppBar from "../SerachBar/MenuAppBar";
 import TableCovidStatistic from "../TableCovidStatistic/TableCovidStatistic";
+import withStyles from "@material-ui/core/styles/withStyles";
+import {styles} from "@/components/MainView/styles";
 
-const useStyles = makeStyles((theme) => ({
-    searchBox: {
-        marginTop: theme.spacing(2),
-        marginLeft: theme.spacing(3),
-        display: 'flex',
-        margin: theme.spacing(1)
-    },
-    searchIcon: {
-        margin: theme.spacing(1),
-        backgroundColor: "lightskyblue",
-    },
-    form: {
-        width: '100%',
-        marginTop: theme.spacing(1),
-    },
-    submit: {
-        margin: theme.spacing(3, 0, 2),
-    },
-    content: {
-        marginLeft: theme.spacing(5),
-        marginTop: theme.spacing(2)
-    }
-}));
+class MainView extends Component {
 
-export default function MainView() {
+    render() {
+        const {classes} = this.props;
 
-    const classes = useStyles();
+        return (
+            <Container component="main" maxWidth="xl">
+                <SearchAppBar/>
+                <Container className={classes.content}>
+                    <TableCovidStatistic/>
+                </Container>
 
-    return (
-        <Container component="main" maxWidth="xl">
-            <SearchAppBar/>
-            <Container className={classes.content}>
-                <TableCovidStatistic/>
             </Container>
-
-        </Container>
-    )
+        )
+    }
 }
+
+export default withStyles(styles)(MainView);
