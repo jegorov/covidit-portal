@@ -9,11 +9,15 @@ import TableRow from "@material-ui/core/TableRow";
 import {restService} from "@/services/restService";
 import Paper from "@material-ui/core/Paper";
 import TableCell from "@material-ui/core/TableCell";
+import Typography from "@material-ui/core/Typography";
 
 class TableCovidStatistic extends Component {
 
-    static = {
-        data: null
+    constructor() {
+        super();
+        this.state = {
+            data: null,
+        }
     }
 
     async componentDidMount() {
@@ -21,43 +25,40 @@ class TableCovidStatistic extends Component {
         this.setState({data: data})
     }
 
-    renderTableCells = () => {
-        if (this.state && this.state.data) {
-            this.state.data.map(row =>
-                (<TableRow key={row.name}>
-                    <TableCell component="th" scope="row">
-                        {row.name}
-                    </TableCell>
-                    <TableCell align="right">{row.calories}</TableCell>
-                    <TableCell align="right">{row.fat}</TableCell>
-                    <TableCell align="right">{row.carbs}</TableCell>
-                    <TableCell align="right">{row.protein}</TableCell>
-                </TableRow>)
-            )
-        }
-    }
-
     render() {
         const {classes} = this.props;
 
         return (
             <TableContainer component={Paper}>
-                <Table className={classes.table} aria-label="customized table">
+                <Table className={classes.table} aria-label="simple table" size={"small"}>
                     <TableHead>
                         <TableRow>
-                            <TableCell>Country</TableCell>
-                            <TableCell align="right">New Cases</TableCell>
-                            <TableCell align="right">New Death&nbsp;(g)</TableCell>
-                            <TableCell align="right">New Recovered&nbsp;(g)</TableCell>
-                            <TableCell align="right">Total Cases&nbsp;(g)</TableCell>
-                            <TableCell align="right">Total Death&nbsp;(g)</TableCell>
-                            <TableCell align="right">Total Recovered&nbsp;(g)</TableCell>
-                            <TableCell align="right">Active Cases&nbsp;(g)</TableCell>
-                            <TableCell align="right">Serious Critical&nbsp;(g)</TableCell>
-                            <TableCell align="right">Population&nbsp;(g)</TableCell>
-                            <TableCell align="right">Total Case (per 1mln)&nbsp;(g)</TableCell>
-                            <TableCell align="right">Death (per 1mln)&nbsp;(g)</TableCell>
-                            <TableCell align="right">Tests (per 1mln)&nbsp;(g)</TableCell>
+                            <TableCell size={"small"}> <Typography
+                                style={{fontSize: 13}}>Country</Typography></TableCell>
+                            <TableCell align="right" size={"small"}><Typography style={{fontSize: 13}}>New
+                                Cases</Typography></TableCell>
+                            <TableCell align="right" size={"small"}><Typography style={{fontSize: 13}}>New
+                                Death&nbsp;(g)</Typography></TableCell>
+                            <TableCell align="right" size={"small"}><Typography style={{fontSize: 13}}>New
+                                Recovered&nbsp;(g)</Typography></TableCell>
+                            <TableCell align="right" size={"small"}><Typography style={{fontSize: 13}}>Total
+                                Cases&nbsp;(g)</Typography></TableCell>
+                            <TableCell align="right" size={"small"}><Typography style={{fontSize: 13}}>Total
+                                Death&nbsp;(g)</Typography></TableCell>
+                            <TableCell align="right" size={"small"}><Typography style={{fontSize: 13}}>Total
+                                Recovered&nbsp;(g)</Typography></TableCell>
+                            <TableCell align="right" size={"small"}><Typography style={{fontSize: 13}}>Active
+                                Cases&nbsp;(g)</Typography></TableCell>
+                            <TableCell align="right" size={"small"}><Typography style={{fontSize: 13}}>Serious
+                                Critical&nbsp;(g)</Typography></TableCell>
+                            <TableCell align="right" size={"small"}><Typography
+                                style={{fontSize: 13}}>Population&nbsp;(g)</Typography></TableCell>
+                            <TableCell align="right" size={"small"}><Typography style={{fontSize: 13}}>Total Case (per
+                                1mln)&nbsp;(g)</Typography></TableCell>
+                            <TableCell align="right" size={"small"}><Typography style={{fontSize: 13}}>Death (per
+                                1mln)&nbsp;(g)</Typography></TableCell>
+                            <TableCell align="right" size={"small"}><Typography style={{fontSize: 13}}>Tests (per
+                                1mln)&nbsp;(g)</Typography></TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>

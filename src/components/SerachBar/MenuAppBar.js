@@ -1,87 +1,103 @@
-import React from 'react';
-import {makeStyles} from '@material-ui/core/styles';
+import React, {Component} from 'react';
+import {withStyles} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
+import {styles} from "@/components/SerachBar/styles";
+import clsx from "clsx";
+import {classes} from "istanbul-lib-coverage";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import Button from "@material-ui/core/Button";
+import Drawer from "@material-ui/core/Drawer";
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
-    },
-    menuButton: {
-        marginRight: theme.spacing(2),
-    },
-    title: {
-        flexGrow: 1,
-    },
-}));
 
-export default function MenuAppBar() {
-    const classes = useStyles();
-    const [auth, setAuth] = React.useState(true);
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const open = Boolean(anchorEl);
+class MenuAppBar extends Component {
 
-    const handleChange = (event) => {
-        setAuth(event.target.checked);
+    constructor() {
+        super();
+        this.state = {
+            anchorEl: null,
+            left: false
+        }
+
+    }
+
+    handleClose = () => {
+        this.setState({anchorEl: null})
     };
 
-    const handleMenu = (event) => {
-        setAnchorEl(event.currentTarget);
+    handleSelect = (value) => {
+        this.setState({anchorEl: null})
+        this.props.onActiveComponentChange(value)
+    }
+
+    toggleDrawer = (anchor, open) => (event) => {
+        if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+            return;
+        }
+
+        this.setState({anchor: open});
     };
 
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-
-    return (
-        <div className={classes.root}>
-            <AppBar position="static">
-                <Toolbar>
-                    <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography variant="h6" className={classes.title}>
-                        Covid
-                    </Typography>
-                    {auth && (
-                        <div>
-                            <IconButton
-                                aria-label="account of current user"
-                                aria-controls="menu-appbar"
-                                aria-haspopup="true"
-                                onClick={handleMenu}
-                                color="inherit"
-                            >
-                                <AccountCircle />
-                            </IconButton>
-                            <Menu
-                                id="menu-appbar"
-                                anchorEl={anchorEl}
-                                anchorOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                keepMounted
-                                transformOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                open={open}
-                                onClose={handleClose}
-                            >
-                                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                                <MenuItem onClick={handleClose}>Logout</MenuItem>
-                            </Menu>
-                        </div>
-                    )}
-                </Toolbar>
-            </AppBar>
+    list = (anchor) => (
+        <div
+            className={clsx(classes.list, {
+                [classes.fullList]: anchor === 'top' || anchor === 'bottom',
+            })}
+            role="presentation"
+            onClick={this.toggleDrawer(anchor, false)}
+            onKeyDown={this.toggleDrawer(anchor, false)}
+        >
+            <List>
+                {['Table', 'Map'].map((text, index) => (
+                    <ListItem button onClick={() => this.handleSelect(text.toLowerCase())}>
+                        <ListItemText primary={"Covid " + JSON.stringify(text)}/>
+                    </ListItem>
+                ))}
+            </List>
         </div>
     );
+
+    showMenu = () => {
+        return (<div><React.Fragment key={"left"}>
+                    <Button onClick={this.toggleDrawer("left", true)}>{"left"}</Button>
+                    <Drawer anchor={"left"} open={this.state.anchor} onClose={this.toggleDrawer("left", false)}>
+                        {this.list("left")}
+                    </Drawer>
+                </React.Fragment>
+            )}
+        </div>)
+    }
+
+    render() {
+        const {classes} = this.props;
+        return (
+            <div className={classes.root}>
+                <Drawer anchor={"left"} open={this.state.anchor} onClose={this.toggleDrawer("left", false)}>
+                    {this.list("left")}
+                </Drawer>
+                <AppBar position="static">
+                    <Toolbar>
+                        <IconButton edge="start" className={classes.menuButton}  onClick={this.toggleDrawer("left", true)}
+                                    color="inherit"
+                                    aria-label="menu">
+                            <MenuIcon/>
+                        </IconButton>
+                        <Typography variant="h6" className={classes.title}>
+                            Covid
+                        </Typography>
+                    </Toolbar>
+                </AppBar>
+            </div>
+        );
+    }
+
 }
+
+export default withStyles(styles)(MenuAppBar);
